@@ -1,0 +1,14 @@
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    display: flex;
+    width: 300%; /* Adjust this value based on the number of images */
+}
+
+.carousel-slide img {
+    width: 100%;
+    transition: transform 0.5s ease;
+}

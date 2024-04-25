@@ -1,14 +1,22 @@
 .carousel-container {
     width: 100%;
     overflow: hidden;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Set height to full viewport height */
 }
 
 .carousel-slide {
     display: flex;
     width: 300%; /* Adjust this value based on the number of images */
+    justify-content: center; /* Center slides horizontally */
+    align-items: center; /* Center slides vertically */
 }
 
 .carousel-slide img {
-    width: 100%;
+    max-width: 100%;
+    max-height: 100%; /* Ensure images don't exceed container height */
+    object-fit: contain; /* Maintain aspect ratio */
     transition: transform 0.5s ease;
 }

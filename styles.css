@@ -4,7 +4,7 @@
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
-    height: 100vh; /* Set height to full viewport height */
+    height: 900vh; /* Set height to full viewport height */
 }
 
 .carousel-slide {

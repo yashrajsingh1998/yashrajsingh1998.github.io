@@ -1,167 +1,546 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>AfterMatch</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <style>
-    /* Navbar */
-    .navbar {
-      border-radius: 0;
-      background-color: #b95d88; /* Green */
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: beige;
+        }
+        .navbar {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+        }
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-logo img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .navbar-logo span {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+        }
+        .navbar-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            position: relative;
+        }
+        .navbar-menu a:hover {
+            color: #000;
+        }
+        .navbar-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0%;
+            height: 2px;
+            background-color: #000;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s;
+        }
+        .navbar-menu a:hover::after {
+            width: 100%;
+        }
+        .carousel-container {
+            position: relative;
+            margin: 20px auto;
+            max-width: 80%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel img {
+            width: 100%;
+            max-height: 637px;
+            object-fit: contain;
+            padding: 0 10px;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #B6D7A8;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .nav-button.left {
+            left: 10px;
+        }
+        .nav-button.right {
+            right: 10px;
+        }
+        .dots {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .dot {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .dot.active {
+            background-color: #717171;
+        }
+        .book-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
 
-    .navbar-brand {
-      color: white !important;
-      font-size: 24px;
-    }
-
-    .navbar-brand:hover {
-      color: #f9f9f9 !important;
-    }
-
-    .navbar-nav > li > a {
-      color: white !important;
-      font-size: 18px;
-    }
-
-    .navbar-nav > li > a:hover {
-      color: #f9f9f9 !important;
-    }
-
-    /* Sticky Notes Box */
-    .sticky-notes-box {
-      margin-top: 20px;
-    }
-
-    .sticky-notes-box img {
-      border-radius: 5px;
-      margin-bottom: 20px;
-    }
-  </style>
+            position: relative;
+            margin: 20px auto;
+            max-width: 80%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .book-item {
+            width: calc(25% - 40px);
+            min-width: 150px;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease;
+        }
+        .book-item img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .book-item:hover {
+            transform: scale(1.05);
+        }
+        @media (max-width: 800px) {
+            .book-item {
+                width: calc(33.33% - 40px);
+            }
+        }
+        @media (max-width: 600px) {
+            .book-item {
+                width: calc(50% - 40px);
+            }
+        }
+                .footer {
+            background-color: #f8f8f8;
+            padding: 40px 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+            margin: 10px;
+        }
+        .footer-section h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        .footer-section ul li a {
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .footer-section ul li a:hover {
+            color: #000;
+        }
+        .footer-social {
+            display: flex;
+            gap: 10px;
+        }
+        .footer-social a {
+            text-decoration: none;
+            color: #333;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        .footer-social a:hover {
+            color: #000;
+        }
+        .footer-apps {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .footer-apps img {
+            height: 40px;
+        }
+        .footer-note {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer-links {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .footer-links a {
+            margin: 0 5px;
+            text-decoration: none;
+            color: #333;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover {
+            color: #000;
+        }
+    </style>
 </head>
 <body>
-
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">AftrMatch</a>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="navbar-collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">About Us</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
-
-<div class="container">
-  <!-- Sticky Notes Box -->  
-  <div id="myCarousel" class="carousel slide">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-      <li data-target="#myCarousel" data-slide-to="3"></li>
-    </ol>
-
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner" role="listbox">
-      <div class="item active">
-        <img src="image1.png" alt="Chania" class="img-responsive">
-        <div class="carousel-caption">
-          <h3>Chania</h3>
-          <p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+    <div class="navbar">
+        <div class="navbar-logo">
+            <!-- <img src="logo.png" alt="AftMatch Logo"> -->
+            <span>AftrMatch</span>
         </div>
-      </div>
-
-      <div class="item">
-        <img src="image2.png" alt="Chania" class="img-responsive">
-        <div class="carousel-caption">
-          <h3>Chania</h3>
-          <p>The atmosphere in Chania has a touch of Florence and Venice.</p>
+        <div class="navbar-menu">
+            <a href="#">The App</a>
+            <a href="#">Ambassadors</a>
+            <a href="#">About us</a>
+            <a href="#">Contact us</a>
         </div>
-      </div>
-    
-      <div class="item">
-        <img src="image5.png" alt="Flower" class="img-responsive">
-        <div class="carousel-caption">
-          <h3>Flowers</h3>
-          <p>Beautiful flowers in Kolymbari, Crete.</p>
+    </div>
+    <div class="carousel-container">
+        <button class="nav-button left" onclick="changeSlide(-1)">&#10094;</button>
+        <div class="carousel">
+            <img src="cour1.png" alt="Image 1">
+            <img src="cour1.png" alt="Image 2">
+            <img src="cour1.png" alt="Image 3">
         </div>
-      </div>
-
-      <div class="item">
-        <img src="image1.png" alt="Flower" class="img-responsive">
-        <div class="carousel-caption">
-          <h3>Flowers</h3>
-          <p>Beautiful flowers in Kolymbari, Crete.</p>
+        <button class="nav-button right" onclick="changeSlide(1)">&#10095;</button>
+        <div class="dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
         </div>
-      </div>
     </div>
+    <div class="book-grid">
+        <div class="book-item"><img src="sticky/1.png" alt="Book 1"></div>
+        <div class="book-item"><img src="sticky/2.png" alt="Book 2"></div>
+        <div class="book-item"><img src="sticky/3.png" alt="Book 3"></div>
+        <div class="book-item"><img src="sticky/4.png" alt="Book 4"></div>
+        <div class="book-item"><img src="sticky/5.png" alt="Book 5"></div>
+        <div class="book-item"><img src="sticky/6.png" alt="Book 6"></div>
+        <div class="book-item"><img src="sticky/7.png" alt="Book 7"></div>
+        <div class="book-item"><img src="sticky/Master Note.png" alt="Book 8"></div>
+    </div>
+        <footer class="footer">
+        <div class="footer-section">
+            <h3>Legal</h3>
+            <ul>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Consumer Health Data Privacy Policy</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Intellectual Property</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Careers</h3>
+            <ul>
+                <li><a href="#">Careers Portal</a></li>
+                <li><a href="#">Tech Blog</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h3>Social</h3>
+            <div class="footer-social">
+                <a href="#"><img src="insta.jpg" width="30px" height="30px" alt="Instagram"></a>
+                <!-- <a href="#"><img src="youtube-icon.png" alt="YouTube"></a> -->
+                <a href="#"><img src="twitter.jpg" width="30px" height="30px" alt="Twitter"></a>
+                <a href="#"><img src="fb.jpg" width="30px" height="30px" alt="Facebook"></a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h3>Get the app!</h3>
+            <div class="footer-apps">
+                <a href="#"><img src="t2logo.png" alt="App Store"></a>
+                <a href="#"><img src="tlogo.png" alt="Google Play"></a>
+            </div>
+        </div>
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <ul>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Destinations</a></li>
+                <li><a href="#">Press Room</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Promo Code</a></li>
+            </ul>
+        </div>
+        <div class="footer-note">
+            Single people, listen up: If you're looking for love, want to start dating, or just keep it casual, you need to be on AftMatch. With millions of matches made, it's the place to be to meet your next best match. Let's be real, the dating landscape looks very different today, as most people are meeting online. AftMatch is here to bring you all the sparks.
+        </div>
+        <div class="footer-links">
+            <a href="#">FAQ</a> /
+            <a href="#">Safety Tips</a> /
+            <a href="#">Terms</a> /
+            <a href="#">Cookie Policy</a> /
+            <a href="#">Privacy Settings</a>
+        </div>
+        <div class="footer-note">
+            &copy; 2024 AftMatch LLC, All Rights Reserved.
+        </div>
+    </footer>
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.carousel img');
+        const dots = document.querySelectorAll('.dot');
 
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
-  <div class="sticky-notes-box">
-    <div class="row">
-      <div class="col-xs-4">
-        <img src="sticky_note_1.png" alt="Sticky Note 1" class="img-responsive">
-      </div>
-      <div class="col-xs-4">
-        <img src="sticky_note_1.png" alt="Sticky Note 2" class="img-responsive">
-      </div>
-      <div class="col-xs-4">
-        <img src="sticky_note_1.png " alt="Sticky Note 3" class="img-responsive">
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12 text-center">
-        <h2>Get the app!</h2>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12 text-center">
-        <a class="Mend(16px) Fxb(1/2) focus-outline-style My(0) P(0) D(ib)" href="https://go.tinder.com/web-ios-download" itemprop="relatedLink">
-          <img width="143px" loading="lazy" alt="" class="Objf(ct) Maw(143px) H(48px)" src="https://tinder.com/static/build/d256a5b510a685030be375c63a9010e9.webp">
-        </a>
-        <a class="Mend(16px) Fxb(1/2) focus-outline-style My(0) P(0) D(ib)" href="https://go.tinder.com/web-android-download" itemprop="relatedLink">
-          <img width="143px" loading="lazy" alt="" class="Objf(ct) Maw(143px) H(48px)" src="https://tinder.com/static/build/03aed264f8539c570e9bc80ba6b60d92.webp">
-        </a>
-      </div>
-    </div>
-  </div>
-  
- 
-  
-</div>
+        function showSlides() {
+            slides.forEach((slide, index) => {
+                slide.style.display = 'none';
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            slides[slideIndex - 1].style.display = 'block';
+            dots[slideIndex - 1].classList.add('active');
+            setTimeout(showSlides, 5000);
+        }
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        function currentSlide(n) {
+            slideIndex = n;
+            slides.forEach((slide, index) => {
+                slide.style.display = 'none';
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            slides[slideIndex].style.display = 'block';
+            dots[slideIndex].classList.add('active');
+        }
 
+        function changeSlide(n) {
+            slideIndex += n;
+            if (slideIndex < 0) {
+                slideIndex = slides.length - 1;
+            } else if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+            currentSlide(slideIndex);
+        }
+
+        showSlides();
+    </script>
 </body>
 </html>
 
 
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        .carousel-container {
+            position: relative;
+            margin: 20px auto;
+            max-width: 80%;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .carousel {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel img {
+            width: 100%;
+            max-height: 637px;
+            object-fit: contain;
+            padding: 0 10px;
+        }
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .nav-button.left {
+            left: 10px;
+        }
+        .nav-button.right {
+            right: 10px;
+        }
+        .dots {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .dot {
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .dot.active {
+            background-color: #717171;
+        }
+        .book-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+        .book-item {
+            width: calc(25% - 40px);
+            min-width: 150px;
+            height: 200px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid #ddd;
+            transition: transform 0.3s ease;
+        }
+        .book-item:hover {
+            transform: scale(1.05);
+        }
+        @media (max-width: 800px) {
+            .book-item {
+                width: calc(33.33% - 40px);
+            }
+        }
+        @media (max-width: 600px) {
+            .book-item {
+                width: calc(50% - 40px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        Book Store
+    </div>
+    <div class="carousel-container">
+        <button class="nav-button left" onclick="changeSlide(-1)">&#10094;</button>
+        <div class="carousel">
+            <img src="cour1.png" alt="Image 1">
+            <img src="cour1.png" alt="Image 2">
+            <img src="cour1.png" alt="Image 3">
+        </div>
+        <button class="nav-button right" onclick="changeSlide(1)">&#10095;</button>
+        <div class="dots">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </div>
+    <div class="book-grid">
+        <div class="book-item">Book 1</div>
+        <div class="book-item">Book 2</div>
+        <div class="book-item">Book 3</div>
+        <div class="book-item">Book 4</div>
+        <div class="book-item">Book 5</div>
+        <div class="book-item">Book 6</div>
+        <div class="book-item">Book 7</div>
+        <div class="book-item">Book 8</div>
+    </div>
+    <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.carousel img');
+        const dots = document.querySelectorAll('.dot');
 
+        function showSlides() {
+            slides.forEach((slide, index) => {
+                slide.style.display = 'none';
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            slideIndex++;
+            if (slideIndex > slides.length) {
+                slideIndex = 1;
+            }
+            slides[slideIndex - 1].style.display = 'block';
+            dots[slideIndex - 1].classList.add('active');
+            setTimeout(showSlides, 5000);
+        }
+
+        function currentSlide(n) {
+            slideIndex = n;
+            slides.forEach((slide, index) => {
+                slide.style.display = 'none';
+            });
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            slides[slideIndex].style.display = 'block';
+            dots[slideIndex].classList.add('active');
+        }
+
+        function changeSlide(n) {
+            slideIndex += n;
+            if (slideIndex < 0) {
+                slideIndex = slides.length - 1;
+            } else if (slideIndex >= slides.length) {
+                slideIndex = 0;
+            }
+            currentSlide(slideIndex);
+        }
+
+        showSlides();
+    </script>
+</body>
+</html> -->
